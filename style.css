@@ -29,11 +29,42 @@
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Prompt', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     min-height: 100vh;
     padding: 10px;
     color: #333;
+}
+
+/* Global button styles */
+button, .btn, [class*="btn-"] {
+    font-family: 'Prompt', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 500;
+}
+
+/* Global input and select styles */
+input, select, textarea {
+    font-family: 'Prompt', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 400;
+}
+
+/* Global label styles */
+label {
+    font-family: 'Prompt', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 500;
+}
+
+/* Global text emphasis styles */
+strong, b {
+    font-weight: 600;
+}
+
+em, i {
+    font-weight: 400;
+}
+
+small {
+    font-weight: 400;
 }
 
 .container {
@@ -75,6 +106,7 @@ header {
 
 header h1 {
     font-size: 2rem;
+    font-weight: 700;
     background: linear-gradient(45deg, #667eea, #764ba2);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -231,6 +263,7 @@ section {
 section h2 {
     margin-bottom: 10px;
     font-size: 1.2rem;
+    font-weight: 600;
     color: #333;
 }
 
@@ -356,6 +389,7 @@ section h2 {
     border-radius: 6px;
     cursor: pointer;
     font-size: 0.9rem;
+    font-weight: 500;
     transition: all 0.3s ease;
 }
 
@@ -449,6 +483,7 @@ section h2 {
 
 .players-header h2 {
     margin-bottom: 0;
+    font-weight: 600;
 }
 
 .player-controls {
@@ -738,6 +773,7 @@ section h2 {
 .upload-placeholder small {
     color: #666;
     font-size: 0.9rem;
+    font-weight: 400;
 }
 
 .upload-stats {
@@ -796,6 +832,7 @@ section h2 {
     margin: 0 0 15px 0;
     color: #333;
     font-size: 1.2rem;
+    font-weight: 600;
 }
 
 .confirmation-list {
