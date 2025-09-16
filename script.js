@@ -1,3 +1,28 @@
+// Theme Management
+let currentTheme = localStorage.getItem('theme') || 'light';
+
+// Apply theme on page load
+function initializeTheme() {
+    document.documentElement.setAttribute('data-theme', currentTheme);
+    updateThemeIcon();
+}
+
+// Toggle theme function
+function toggleTheme() {
+    currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', currentTheme);
+    localStorage.setItem('theme', currentTheme);
+    updateThemeIcon();
+}
+
+// Update theme icon
+function updateThemeIcon() {
+    const themeIcon = document.querySelector('.theme-icon');
+    if (themeIcon) {
+        themeIcon.textContent = currentTheme === 'light' ? '🌙' : '☀️';
+    }
+}
+
 // Global variables
 let playerCount = 2;
 const MAX_PLAYERS = 6;
@@ -65,6 +90,9 @@ const copyResultsBtn = document.getElementById('copyResults');
 
 // Initialize the app
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize theme
+    initializeTheme();
+    
     // Sync playerCount with actual player cards on page
     playerCount = document.querySelectorAll('.player-card').length;
     console.log(`Initial player count: ${playerCount}`);
@@ -88,6 +116,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Event listeners
 function initializeEventListeners() {
+    // Theme toggle button
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    if (themeToggleBtn) {
+        themeToggleBtn.addEventListener('click', toggleTheme);
+    }
+    
     // Total currency input
     totalCurrencyInput.addEventListener('input', () => {
         calculateExchangeRates();
