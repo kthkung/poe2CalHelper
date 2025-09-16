@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POE2 Currency Calculator - Grid Test</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 10px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-gap: 20px;
+            grid-template-areas: 
+                "header header"
+                "currency-section exchange-section"
+                "players-section results-section"
+                "actions-section actions-section"
+                "footer footer";
+        }
+
+        main {
+            display: contents;
+        }
+
+        header {
+            grid-area: header;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        header h1 {
+            font-size: 2rem;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 5px;
+        }
+
+        section {
+            margin-bottom: 10px;
+            padding: 12px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        section h2 {
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+            color: #333;
+        }
+
+        .currency-section {
+            grid-area: currency-section;
+        }
+
+        .exchange-section {
+            grid-area: exchange-section;
+        }
+
+        .players-section {
+            grid-area: players-section;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .results-section {
+            grid-area: results-section;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .actions-section {
+            grid-area: actions-section;
+        }
+
+        footer {
+            grid-area: footer;
+            text-align: center;
+            padding: 10px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 12px;
+            font-size: 1rem;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            margin-top: 5px;
+        }
+
+        .player-card, .result-card {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 10px;
+        }
+
+        .result-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+                grid-template-areas: 
+                    "header"
+                    "currency-section"
+                    "exchange-section"
+                    "players-section"
+                    "results-section"
+                    "actions-section"
+                    "footer";
+                padding: 15px;
+            }
+
+            .players-section, .results-section {
+                max-height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>💰 POE2 Currency Calculator</h1>
+            <p>คำนวณการแบ่ง Currency สำหรับปาร์ตี้ในเกม</p>
+        </header>
+
+        <main>
+            <section class="currency-section">
+                <h2>💰 Total Currency</h2>
+                <label for="totalCurrency">Total Divine Orbs ที่ได้:</label>
+                <input type="number" id="totalCurrency" class="input-field" placeholder="Enter total Divine Orbs" value="5">
+            </section>
+
+            <section class="exchange-section">
+                <h2>💱 Exchange Rates</h2>
+                <p>🔄 API Status: Connected</p>
+                <div style="margin: 10px 0;">
+                    <strong>1 Divine = 205.84 Exalted</strong><br>
+                    <small>1 Exalted = 1.00 Exalted (Base)</small>
+                </div>
+                <div style="background: #e8f4fd; padding: 10px; border-radius: 8px; margin-top: 10px;">
+                    <strong>📊 Total Value: 1,029 Exalted Orbs</strong><br>
+                    <small>≈ 5.00 Divine Orbs</small>
+                </div>
+            </section>
+
+            <section class="players-section">
+                <h2>👥 Players (3/6)</h2>
+                <div class="player-card">
+                    <strong>Player 1</strong><br>
+                    <input type="text" placeholder="Player name" style="margin: 5px 0; padding: 5px; width: 100%;" value="คุณ"><br>
+                    <label>Contribution: <input type="number" value="40" style="width: 60px; padding: 3px;">%</label>
+                </div>
+                <div class="player-card">
+                    <strong>Player 2</strong><br>
+                    <input type="text" placeholder="Player name" style="margin: 5px 0; padding: 5px; width: 100%;" value="เพื่อน"><br>
+                    <label>Contribution: <input type="number" value="35" style="width: 60px; padding: 3px;">%</label>
+                </div>
+                <div class="player-card">
+                    <strong>Player 3</strong><br>
+                    <input type="text" placeholder="Player name" style="margin: 5px 0; padding: 5px; width: 100%;" value="Guest"><br>
+                    <label>Contribution: <input type="number" value="25" style="width: 60px; padding: 3px;">%</label>
+                </div>
+                <button class="btn btn-primary">+ เพิ่มคน</button>
+            </section>
+
+            <section class="results-section">
+                <h2>🎯 Results</h2>
+                <div class="result-card">
+                    <strong>คุณ (40%)</strong><br>
+                    2 Divine + 83 Exalted<br>
+                    <small>Total: 2.40 Divine | 494 Exalted</small>
+                </div>
+                <div class="result-card">
+                    <strong>เพื่อน (35%)</strong><br>
+                    1 Divine + 289 Exalted<br>
+                    <small>Total: 2.10 Divine | 432 Exalted</small>
+                </div>
+                <div class="result-card">
+                    <strong>Guest (25%)</strong><br>
+                    309 Exalted<br>
+                    <small>Total: 1.50 Divine | 309 Exalted</small>
+                </div>
+            </section>
+
+            <section class="actions-section">
+                <h2>⚡ Actions</h2>
+                <button class="btn btn-primary">⚖️ Equal Split</button>
+                <button class="btn btn-secondary">🗑️ Clear All</button>
+                <button class="btn btn-success">📋 Copy Results</button>
+            </section>
+        </main>
+
+        <footer>
+            <p>Made with ❤️ for gamers | Deploy via GitHub Pages</p>
+        </footer>
+    </div>
+</body>
+</html>

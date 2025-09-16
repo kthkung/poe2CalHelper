@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test POE2 API</title>
+</head>
+<body>
+    <h1>POE2Scout API Test</h1>
+    <button onclick="testAPI()">Test API</button>
+    <div id="result"></div>
+
+    <script>
+        async function testAPI() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = 'Loading...';
+            
+            try {
+                const response = await fetch('https://poe2scout.com/api/items/currency/currency?page=1&perPage=25&league=Rise%20of%20the%20Abyssal&search=&referenceCurrency=exalted');
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                console.log('API Response:', data);
+                
+                // Find Divine and Exalted rates
+                const divineItem = data.data?.find(item => 
+                    item.name === 'Divine Orb' || 
+                    item.name?.toLowerCase().includes('divine')
+                );
+                
+                const exaltedItem = data.data?.find(item => 
+                    item.name === 'Exalted Orb' || 
+                    item.name?.toLowerCase().includes('exalted')
+                );
+                
+                let html = '<h2>API Test Results:</h2>';
+                html += `<p><strong>Status:</strong> ${response.status} ${response.statusText}</p>`;
+                html += `<p><strong>Total Items:</strong> ${data.data?.length || 0}</p>`;
+                
+                if (divineItem) {
+                    html += `<p><strong>Divine Orb:</strong> ${divineItem.currentPrice || 'N/A'} Exalted</p>`;
+                }
+                
+                if (exaltedItem) {
+                    html += `<p><strong>Exalted Orb:</strong> ${exaltedItem.currentPrice || 'N/A'} Exalted</p>`;
+                }
+                
+                html += '<h3>First few items:</h3><ul>';
+                data.data?.slice(0, 5).forEach(item => {
+                    html += `<li>${item.name}: ${item.currentPrice} Exalted</li>`;
+                });
+                html += '</ul>';
+                
+                resultDiv.innerHTML = html;
+                
+            } catch (error) {
+                console.error('API Error:', error);
+                resultDiv.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+            }
+        }
+    </script>
+</body>
+</html>

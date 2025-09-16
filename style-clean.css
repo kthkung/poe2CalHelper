@@ -1,0 +1,562 @@
+/* Reset และ Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Custom Scrollbar */
+.players-section::-webkit-scrollbar,
+.results-section::-webkit-scrollbar {
+    width: 8px;
+}
+
+.players-section::-webkit-scrollbar-track,
+.results-section::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.players-section::-webkit-scrollbar-thumb,
+.results-section::-webkit-scrollbar-thumb {
+    background: #667eea;
+    border-radius: 4px;
+}
+
+.players-section::-webkit-scrollbar-thumb:hover,
+.results-section::-webkit-scrollbar-thumb:hover {
+    background: #5a6fd8;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 10px;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+    grid-template-areas: 
+        "header header"
+        "currency-section exchange-section"
+        "players-section results-section"
+        "actions-section actions-section"
+        "footer footer";
+}
+
+main {
+    display: contents;
+}
+
+/* Header */
+header {
+    grid-area: header;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+header h1 {
+    font-size: 2rem;
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 5px;
+}
+
+header p {
+    color: #666;
+    font-size: 1rem;
+}
+
+footer {
+    grid-area: footer;
+    text-align: center;
+    margin-top: 10px;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+/* Sections */
+section {
+    margin-bottom: 10px;
+    padding: 12px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+}
+
+section h2 {
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+/* Grid Areas */
+.currency-section {
+    grid-area: currency-section;
+}
+
+.exchange-section {
+    grid-area: exchange-section;
+}
+
+.players-section {
+    grid-area: players-section;
+    max-height: 450px;
+    overflow-y: auto;
+}
+
+.results-section {
+    grid-area: results-section;
+    max-height: 450px;
+    overflow-y: auto;
+}
+
+.actions-section {
+    grid-area: actions-section;
+}
+
+/* Currency Input */
+.total-input label {
+    display: block;
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.input-field {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    background: white;
+    transition: all 0.3s ease;
+}
+
+.input-field:focus {
+    border-color: #667eea;
+    outline: none;
+    box-shadow: 0 0 10px rgba(102, 126, 234, 0.3);
+}
+
+/* Exchange Section */
+.api-status {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding: 12px;
+    background: #e8f4fd;
+    border-radius: 8px;
+    border-left: 4px solid #667eea;
+}
+
+.btn-refresh {
+    background: #667eea;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.btn-refresh:hover {
+    background: #5a6fd8;
+    transform: translateY(-1px);
+}
+
+.exchange-grid {
+    display: grid;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.exchange-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+}
+
+.exchange-item.primary-currency {
+    border-color: #667eea;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.rate-label {
+    font-weight: bold;
+    min-width: 120px;
+}
+
+.exchange-item input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.exchange-item.primary-currency input {
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.rate-source {
+    background: rgba(0, 0, 0, 0.1);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.price-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.conversion-display {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.converted-values {
+    margin-top: 8px;
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+/* Players Section */
+.players-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.players-header h2 {
+    margin-bottom: 0;
+}
+
+.player-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.btn-add {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.btn-add:hover {
+    background: #218838;
+    transform: translateY(-1px);
+}
+
+.btn-add:disabled {
+    background: #6c757d;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.player-count {
+    font-size: 0.9rem;
+    color: #666;
+    font-weight: bold;
+}
+
+/* Player Cards */
+.player-card {
+    background: #f8f9fa;
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+    padding: 12px;
+    margin-bottom: 10px;
+    transition: all 0.3s ease;
+}
+
+.player-card:hover {
+    border-color: #667eea;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.15);
+}
+
+.player-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.player-number {
+    font-weight: bold;
+    color: #667eea;
+    font-size: 1rem;
+}
+
+.btn-remove {
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: all 0.3s ease;
+}
+
+.btn-remove:hover {
+    background: #c82333;
+}
+
+.btn-remove:disabled {
+    background: #6c757d;
+    cursor: not-allowed;
+}
+
+.player-name {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+}
+
+.contribution-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.contribution-section label {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.contribution {
+    width: 80px;
+    padding: 6px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Results Section */
+.calculation-summary {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 15px;
+    padding: 12px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.summary-item span:first-child {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.summary-item span:last-child {
+    font-weight: bold;
+    color: #333;
+}
+
+/* Result Cards */
+.result-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 8px;
+    box-shadow: 0 3px 10px rgba(102, 126, 234, 0.3);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 10px;
+}
+
+.result-player {
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.result-amounts {
+    text-align: right;
+}
+
+.primary-amount {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.converted-amounts {
+    font-size: 0.85rem;
+    opacity: 0.9;
+}
+
+.currency-result-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+    vertical-align: middle;
+    border-radius: 3px;
+}
+
+/* Warning */
+.warning {
+    background: #fff3cd;
+    border: 1px solid #ffeaa7;
+    color: #856404;
+    padding: 12px;
+    border-radius: 8px;
+    margin-top: 15px;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Actions Section */
+.btn-action {
+    background: #667eea;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    margin: 5px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.btn-action:hover {
+    background: #5a6fd8;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.btn-action:nth-child(2) {
+    background: #6c757d;
+}
+
+.btn-action:nth-child(2):hover {
+    background: #5a6268;
+}
+
+.btn-action:nth-child(3) {
+    background: #28a745;
+}
+
+.btn-action:nth-child(3):hover {
+    background: #218838;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    body {
+        padding: 5px;
+    }
+    
+    .container {
+        grid-template-columns: 1fr;
+        grid-template-areas: 
+            "header"
+            "currency-section"
+            "exchange-section"
+            "players-section"
+            "results-section"
+            "actions-section"
+            "footer";
+        padding: 15px;
+        margin: 0 5px;
+    }
+    
+    header h1 {
+        font-size: 1.8rem;
+    }
+    
+    .players-section {
+        max-height: 300px;
+    }
+    
+    .results-section {
+        max-height: 300px;
+    }
+    
+    .result-card {
+        grid-template-columns: 1fr;
+        gap: 5px;
+        text-align: center;
+    }
+    
+    .result-amounts {
+        text-align: center;
+    }
+    
+    .calculation-summary {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    
+    .players-header {
+        flex-direction: column;
+        gap: 10px;
+        align-items: stretch;
+    }
+    
+    .player-controls {
+        justify-content: center;
+    }
+    
+    .price-info {
+        flex-direction: column;
+        gap: 5px;
+        text-align: center;
+    }
+}

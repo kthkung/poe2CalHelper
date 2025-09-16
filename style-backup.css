@@ -1,0 +1,793 @@
+/* Reset และ Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Custom Scrollbar */
+.players-section::-webkit-scrollbar,
+.results-section::-webkit-scrollbar {
+    width: 8px;
+}
+
+.players-section::-webkit-scrollbar-track,
+.results-section::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.players-section::-webkit-scrollbar-thumb,
+.results-section::-webkit-scrollbar-thumb {
+    background: #667eea;
+    border-radius: 4px;
+}
+
+.players-section::-webkit-scrollbar-thumb:hover,
+.results-section::-webkit-scrollbar-thumb:hover {
+    background: #5a6fd8;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 10px;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+    grid-template-areas: 
+        "header header"
+        "currency-section exchange-section"
+        "players-section results-section"
+        "actions-section actions-section"
+        "footer footer";
+}
+
+main {
+    display: contents;
+}
+
+footer {
+    grid-area: footer;
+    text-align: center;
+    margin-top: 10px;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+/* Header */
+header {
+    grid-area: header;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+header h1 {
+    font-size: 2rem;
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 5px;
+}
+
+header p {
+    color: #666;
+    font-size: 1rem;
+}
+
+/* Sections */
+section {
+    margin-bottom: 10px;
+    padding: 12px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+}
+
+section h2 {
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+/* Grid Areas */
+.currency-section {
+    grid-area: currency-section;
+    display: grid;
+    gap: 15px;
+}
+
+.exchange-section {
+    grid-area: exchange-section;
+}
+
+.players-section {
+    grid-area: players-section;
+    max-height: 450px;
+    overflow-y: auto;
+}
+
+.results-section {
+    grid-area: results-section;
+    max-height: 450px;
+    overflow-y: auto;
+}
+
+.actions-section {
+    grid-area: actions-section;
+}
+
+.currency-selector h3 {
+    color: #333;
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+}
+
+.currency-dropdown {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.currency-dropdown:focus {
+    border-color: #667eea;
+    outline: none;
+    box-shadow: 0 0 10px rgba(102, 126, 234, 0.3);
+}
+
+.total-input label {
+    display: block;
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+/* Price Info Section */
+.price-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    background: #e8f4fd;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    font-size: 0.9rem;
+    color: #555;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.price-timestamp, .league-info {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+#lastUpdated, #currentLeague {
+    font-weight: bold;
+    color: #667eea;
+}
+
+/* Currency Icon Styles */
+.currency-icon {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    margin-right: 5px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    vertical-align: middle;
+    border-radius: 2px;
+}
+
+.currency-icon.divine {
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23FFD700"><circle cx="12" cy="12" r="10" fill="%23FFD700"/><path d="M12 6l2 2-2 2-2-2z" fill="%23FFF"/><path d="M12 18l2-2-2-2-2 2z" fill="%23FFF"/></svg>');
+}
+
+.currency-icon.exalted {
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23C0C0C0"><circle cx="12" cy="12" r="10" fill="%23C0C0C0"/><path d="M8 8l8 8M16 8l-8 8" stroke="%23000" stroke-width="2"/></svg>');
+}
+
+/* Update conversion display */
+.conversion-display {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.converted-values {
+    margin-top: 8px;
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    body {
+        padding: 5px;
+    }
+    
+    .container {
+        grid-template-columns: 1fr;
+        grid-template-areas: 
+            "header"
+            "currency-section"
+            "exchange-section"
+            "players-section"
+            "results-section"
+            "actions-section"
+            "footer";
+        padding: 15px;
+        margin: 0 5px;
+    }
+    
+    header h1 {
+        font-size: 1.8rem;
+    }
+    
+    .price-info {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+    }
+    
+    .price-timestamp, .league-info {
+        justify-content: center;
+    }
+    
+    .players-section {
+        max-height: 300px;
+    }
+    
+    .results-section {
+        max-height: 300px;
+    }
+}
+
+/* API Status and Controls */
+.api-status {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding: 12px;
+    background: #e8f4fd;
+    border-radius: 8px;
+    border-left: 4px solid #667eea;
+}
+
+.status-loading {
+    color: #667eea;
+    font-weight: bold;
+}
+
+.status-success {
+    color: #28a745;
+    font-weight: bold;
+}
+
+.status-error {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+.btn-refresh {
+    padding: 8px 15px;
+    background: #667eea;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.btn-refresh:hover {
+    background: #5a6fd8;
+    transform: translateY(-1px);
+}
+
+.primary-currency {
+    border: 2px solid #667eea;
+    background: linear-gradient(135deg, #f8f9ff 0%, #e8f4fd 100%);
+}
+
+.rate-source {
+    background: #667eea;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    margin-left: 5px;
+}
+
+.rate-info {
+    text-align: center;
+    margin-top: 10px;
+    color: #666;
+}
+
+/* Exchange Rate Section */
+.exchange-section {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 12px;
+    border: 2px solid #e9ecef;
+}
+
+.exchange-section h4 {
+    color: #333;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.exchange-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.exchange-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    flex-wrap: wrap;
+}
+
+.rate-label {
+    font-weight: bold;
+    color: #555;
+    min-width: 140px;
+}
+
+.exchange-item input {
+    flex: 1;
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    text-align: center;
+    font-weight: bold;
+    min-width: 80px;
+    font-size: 1rem;
+}
+
+.exchange-item input:focus {
+    border-color: #667eea;
+    outline: none;
+    box-shadow: 0 0 5px rgba(102, 126, 234, 0.3);
+}
+
+.exchange-item span:last-of-type {
+    color: #666;
+    font-size: 0.9rem;
+    min-width: 80px;
+}
+
+.conversion-display {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.converted-values {
+    margin-top: 8px;
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+.converted-values span {
+    margin: 0 5px;
+}
+
+/* Total Currency Section */
+.total-section label {
+    display: block;
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+#totalCurrency {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.3rem;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+#totalCurrency:focus {
+    border-color: #667eea;
+    outline: none;
+    box-shadow: 0 0 10px rgba(102, 126, 234, 0.3);
+}
+
+/* Players Section */
+.players-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.players-header h2 {
+    color: #333;
+    font-size: 1.5rem;
+}
+
+.player-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.player-count {
+    color: #666;
+    font-weight: bold;
+}
+
+/* Player Cards */
+.player-card {
+    background: #f8f9fa;
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+    padding: 12px;
+    margin-bottom: 10px;
+    transition: all 0.3s ease;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 10px;
+    align-items: center;
+}
+
+.player-card:hover {
+    border-color: #667eea;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.15);
+}
+
+.player-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.player-number {
+    font-weight: bold;
+    color: #667eea;
+    font-size: 1rem;
+}
+
+.player-name {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    margin-bottom: 15px;
+}
+
+.contribution-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.contribution-section label {
+    font-weight: bold;
+    color: #555;
+    min-width: 150px;
+}
+
+.contribution {
+    flex: 1;
+    min-width: 100px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 1rem;
+}
+
+/* Buttons */
+.btn-add, .btn-remove, .btn-action {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.btn-add {
+    background: linear-gradient(45deg, #28a745, #20c997);
+    color: white;
+}
+
+.btn-add:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+}
+
+.btn-remove {
+    background: #dc3545;
+    color: white;
+    padding: 8px 12px;
+}
+
+.btn-remove:hover:not(:disabled) {
+    background: #c82333;
+    transform: scale(1.05);
+}
+
+.btn-remove:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+.btn-action {
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    color: white;
+    margin: 5px;
+    padding: 12px 20px;
+    font-size: 1rem;
+}
+
+.btn-action:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+}
+
+/* Results Section */
+.calculation-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 10px;
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    padding: 10px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.result-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 8px;
+    box-shadow: 0 3px 10px rgba(102, 126, 234, 0.3);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 10px;
+}
+
+.result-player {
+    font-weight: bold;
+    font-size: 1rem;
+    margin-bottom: 0;
+}
+
+.result-amounts {
+    text-align: right;
+}
+
+.primary-amount {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.converted-amounts {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    line-height: 1.3;
+}
+
+@media (max-width: 768px) {
+    .result-card {
+        text-align: center;
+    }
+    
+    .result-amounts {
+        text-align: center;
+    }
+    
+    .converted-amounts {
+        font-size: 0.8rem;
+    }
+}
+
+.warning {
+    background: #fff3cd;
+    color: #856404;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid #ffc107;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+/* Actions Section */
+.actions-section {
+    text-align: center;
+    padding: 20px;
+    background: #f8f9fa;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    margin-top: 30px;
+    color: #666;
+    font-style: italic;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+        margin: 10px;
+    }
+    
+    header h1 {
+        font-size: 2rem;
+    }
+    
+    .players-header {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+    }
+    
+    .player-controls {
+        justify-content: center;
+    }
+    
+    .contribution-section {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .contribution-section label {
+        min-width: auto;
+        text-align: center;
+    }
+    
+    .calculation-summary {
+        grid-template-columns: 1fr;
+    }
+    
+    .result-card {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+    
+    .actions-section .btn-action {
+        display: block;
+        width: 100%;
+        margin: 10px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+    
+    .container {
+        padding: 15px;
+    }
+    
+    header h1 {
+        font-size: 1.8rem;
+    }
+    
+    header p {
+        font-size: 1rem;
+    }
+    
+    section {
+        padding: 15px;
+    }
+    
+    .player-card {
+        padding: 15px;
+    }
+}
+
+/* Animation for smooth transitions */
+.player-card {
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Hover effects */
+input:focus, .player-name:focus, .contribution:focus {
+    border-color: #667eea;
+    outline: none;
+    box-shadow: 0 0 10px rgba(102, 126, 234, 0.3);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(45deg, #764ba2, #667eea);
+}
+
+/* Enhanced currency display */
+.currency-name-with-icon {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}

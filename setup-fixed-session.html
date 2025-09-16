@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Fixed Gist for POE2 Party</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .step {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .result {
+            background: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            display: none;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .code {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 3px;
+            padding: 10px;
+            font-family: monospace;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 สร้าง Fixed Gist Session สำหรับ POE2 Party</h1>
+        
+        <div class="step">
+            <h3>� ขั้นตอนที่ 1: ใส่ GitHub Token</h3>
+            <p>เพื่อสร้าง Gist ต้องมี GitHub Personal Access Token:</p>
+            <ol>
+                <li>ไปที่ <a href="https://github.com/settings/tokens" target="_blank">GitHub → Settings → Personal Access Tokens</a></li>
+                <li>คลิก "Generate new token (classic)"</li>
+                <li>ตั้งชื่อ: "POE2 Gist Creator"</li>
+                <li>เลือก scope: ✅ <strong>gist</strong> (เฉพาะอันนี้)</li>
+                <li>คลิก "Generate token"</li>
+                <li>คัดลอก token ที่ได้มาใส่ในช่องด้านล่าง</li>
+            </ol>
+            <input type="password" id="githubToken" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" style="width: 300px; padding: 8px; margin: 10px 0;">
+            <br>
+            <small style="color: #666;">⚠️ Token นี้จะใช้เฉพาะการสร้าง Gist ครั้งเดียว ไม่ถูกเก็บไว้</small>
+        </div>
+        
+        <div class="step">
+            <h3>�📋 ขั้นตอนที่ 2: สร้าง Gist</h3>
+            <p>คลิกปุ่มด้านล่างเพื่อสร้าง Fixed Gist Session สำหรับกลุ่มของคุณ</p>
+            <button onclick="createFixedGist()">🚀 สร้าง Fixed Gist Session</button>
+            
+            <div id="result" class="result">
+                <h4>✅ สำเร็จ! Gist ID ของคุณคือ:</h4>
+                <div class="code" id="gistId"></div>
+                <p><strong>URL:</strong> <span id="gistUrl"></span></p>
+            </div>
+        </div>
+        
+        <div class="step">
+            <h3>⚙️ ขั้นตอนที่ 3: อัปเดตโค้ด</h3>
+            <p>คัดลอก Gist ID ข้างบนแล้วแทนที่ในไฟล์ <code>script.js</code>:</p>
+            <div class="code">
+const FIXED_GIST_ID = 'your-fixed-gist-id-here'; // เปลี่ยนเป็น Gist ID ที่ได้
+            </div>
+            <p>เป็น:</p>
+            <div class="code" id="codeExample">
+const FIXED_GIST_ID = 'กรุณาสร้าง Gist ก่อน';
+            </div>
+        </div>
+        
+        <div class="step">
+            <h3>🎉 ขั้นตอนที่ 4: ใช้งาน</h3>
+            <p>หลังจากอัปเดตโค้ดแล้ว:</p>
+            <ul>
+                <li>ทุกคนในกลุ่มจะเชื่อมต่อ Session เดียวกันอัตโนมัติ</li>
+                <li>ไม่ต้องสร้าง/เข้าร่วม Session แล้ว</li>
+                <li>รูปภาพและสถานะจะ sync กันทันที</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        async function createFixedGist() {
+            const button = event.target;
+            const githubToken = document.getElementById('githubToken').value.trim();
+            
+            if (!githubToken) {
+                alert('กรุณาใส่ GitHub Token ก่อน!');
+                return;
+            }
+            
+            button.disabled = true;
+            button.textContent = '⏳ กำลังสร้าง...';
+            
+            const GITHUB_GIST_API = 'https://api.github.com/gists';
+            
+            const gistData = {
+                description: "POE2 Party Calculator - Fixed Session for GIGOLO Group",
+                public: false,
+                files: {
+                    "poe2-party-data.json": {
+                        content: JSON.stringify({
+                            items: [],
+                            evidence: [],
+                            playerConfirmations: {
+                                'Player 1': 'pending',
+                                'Player 2': 'pending',
+                                'Player 3': 'pending',
+                                'Player 4': 'pending',
+                                'Player 5': 'pending',
+                                'Player 6': 'pending'
+                            },
+                            sessionInfo: {
+                                created: Date.now(),
+                                lastUpdated: Date.now(),
+                                createdBy: 'poe2-party-group',
+                                groupName: 'GIGOLO Party Group'
+                            }
+                        }, null, 2)
+                    }
+                }
+            };
+
+            try {
+                const response = await fetch(GITHUB_GIST_API, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${githubToken}`
+                    },
+                    body: JSON.stringify(gistData)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const result = await response.json();
+                
+                // Show result
+                document.getElementById('result').style.display = 'block';
+                document.getElementById('gistId').textContent = result.id;
+                document.getElementById('gistUrl').textContent = result.html_url;
+                document.getElementById('codeExample').textContent = `const FIXED_GIST_ID = '${result.id}';`;
+                
+                button.textContent = '✅ สร้างสำเร็จแล้ว!';
+                button.style.background = '#28a745';
+                
+                console.log('✅ Created Fixed Gist:', result.id);
+                
+            } catch (error) {
+                console.error('❌ Error creating Gist:', error);
+                button.textContent = '❌ เกิดข้อผิดพลาด - ลองใหม่';
+                button.style.background = '#dc3545';
+                button.disabled = false;
+                
+                alert('เกิดข้อผิดพลาด: ' + error.message);
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,1051 @@
+/* Reset และ Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Custom Scrollbar */
+.players-section::-webkit-scrollbar,
+.results-section::-webkit-scrollbar {
+    width: 8px;
+}
+
+.players-section::-webkit-scrollbar-track,
+.results-section::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.players-section::-webkit-scrollbar-thumb,
+.results-section::-webkit-scrollbar-thumb {
+    background: #667eea;
+    border-radius: 4px;
+}
+
+.players-section::-webkit-scrollbar-thumb:hover,
+.results-section::-webkit-scrollbar-thumb:hover {
+    background: #5a6fd8;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 10px;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+main {
+    display: block;
+}
+
+/* Revenue Tab Grid Layout */
+#revenue-tab {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+    grid-template-areas: 
+        "exchange-section exchange-section"
+        "maps-section maps-section"
+        "players-section results-section"
+        "actions-section actions-section";
+}
+
+#revenue-tab.active {
+    display: grid;
+}
+
+/* Header */
+header {
+    grid-area: header;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+header h1 {
+    font-size: 2rem;
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 5px;
+}
+
+header p {
+    color: #666;
+    font-size: 1rem;
+}
+
+/* Session Status */
+.session-status {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    border-radius: 8px;
+    padding: 10px 15px;
+    margin: 15px 0;
+    color: white;
+    text-align: center;
+    font-weight: 500;
+    box-shadow: 0 2px 8px rgba(40, 167, 69, 0.2);
+}
+
+.session-status.connecting {
+    background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);
+    color: #333;
+}
+
+.session-status.error {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+}
+
+/* Navigation */
+.navbar {
+    margin: 20px 0;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
+    padding: 5px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.nav-container {
+    display: flex;
+    gap: 5px;
+}
+
+.nav-tab {
+    flex: 1;
+    padding: 12px 20px;
+    border: none;
+    background: transparent;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #666;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.nav-tab:hover {
+    background: rgba(102, 126, 234, 0.1);
+    color: #667eea;
+    transform: translateY(-2px);
+}
+
+.nav-tab.active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.nav-tab.active:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+/* Tab Content - Force hide/show with high specificity */
+main .tab-content {
+    display: none !important;
+}
+
+main .tab-content.active {
+    display: block !important;
+}
+
+/* Force hide all non-active tabs */
+main #revenue-tab:not(.active),
+main #items-tab:not(.active), 
+main #evidence-tab:not(.active) {
+    display: none !important;
+}
+
+/* Revenue tab specific layout when active */
+main #revenue-tab.active {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+    grid-template-areas: 
+        "exchange-section exchange-section"
+        "maps-section maps-section"
+        "players-section results-section"
+        "actions-section actions-section";
+}
+
+/* Hide sections that shouldn't appear in specific tabs */
+#items-tab .exchange-section,
+#items-tab .maps-section,
+#items-tab .players-section,
+#items-tab .results-section,
+#items-tab .actions-section {
+    display: none !important;
+}
+
+#evidence-tab .exchange-section,
+#evidence-tab .maps-section,
+#evidence-tab .players-section,
+#evidence-tab .results-section,
+#evidence-tab .actions-section {
+    display: none !important;
+}
+
+#revenue-tab .upload-section {
+    display: none !important;
+}
+
+/* Upload tabs use simple block layout */
+#items-tab, #evidence-tab {
+    display: block;
+}
+
+#items-tab.active, #evidence-tab.active {
+    display: block !important;
+}
+
+footer {
+    text-align: center;
+    margin-top: 20px;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+/* Sections */
+section {
+    margin-bottom: 10px;
+    padding: 12px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+}
+
+section h2 {
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+/* Grid Areas - Only for revenue tab */
+#revenue-tab .exchange-section {
+    grid-area: exchange-section;
+}
+
+#revenue-tab .maps-section {
+    grid-area: maps-section;
+}
+
+#revenue-tab .players-section {
+    grid-area: players-section;
+    max-height: 450px;
+    overflow-y: auto;
+}
+
+#revenue-tab .results-section {
+    grid-area: results-section;
+    max-height: 450px;
+    overflow-y: auto;
+}
+
+#revenue-tab .actions-section {
+    grid-area: actions-section;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* Currency Input */
+.total-input {
+    margin-bottom: 20px;
+}
+
+.total-input label {
+    display: block;
+    font-weight: bold;
+    font-size: 1rem;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.input-field {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    background: white;
+    transition: all 0.3s ease;
+}
+
+.input-field:focus {
+    border-color: #667eea;
+    outline: none;
+    box-shadow: 0 0 10px rgba(102, 126, 234, 0.3);
+}
+
+/* Maps Section */
+.maps-input {
+    margin-bottom: 15px;
+}
+
+.maps-input label {
+    display: block;
+    font-weight: bold;
+    font-size: 1rem;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.maps-status {
+    margin-top: 10px;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    margin-bottom: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.checkbox-container input[type="checkbox"] {
+    margin-right: 10px;
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+.maps-note {
+    padding: 8px 12px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    border-left: 3px solid #28a745;
+}
+
+.maps-note small {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+/* Exchange Section */
+.api-status {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding: 12px;
+    background: #e8f4fd;
+    border-radius: 8px;
+    border-left: 4px solid #667eea;
+}
+
+.btn-refresh {
+    background: #667eea;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.btn-refresh:hover {
+    background: #5a6fd8;
+    transform: translateY(-1px);
+}
+
+.exchange-grid {
+    display: grid;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.exchange-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+}
+
+.exchange-item.primary-currency {
+    border-color: #667eea;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.rate-label {
+    font-weight: bold;
+    min-width: 120px;
+}
+
+.exchange-item input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.exchange-item.primary-currency input {
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.rate-source {
+    background: rgba(0, 0, 0, 0.1);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.price-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.conversion-display {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.converted-values {
+    margin-top: 8px;
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+/* Players Section */
+.players-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.players-header h2 {
+    margin-bottom: 0;
+}
+
+.player-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.btn-add {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.btn-add:hover {
+    background: #218838;
+    transform: translateY(-1px);
+}
+
+.btn-add:disabled {
+    background: #6c757d;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.player-count {
+    font-size: 0.9rem;
+    color: #666;
+    font-weight: bold;
+}
+
+/* Player Cards */
+.player-card {
+    background: #f8f9fa;
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+    padding: 12px;
+    margin-bottom: 10px;
+    transition: all 0.3s ease;
+}
+
+.player-card:hover {
+    border-color: #667eea;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.15);
+}
+
+.player-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.player-number {
+    font-weight: bold;
+    color: #667eea;
+    font-size: 1rem;
+}
+
+.btn-remove {
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: all 0.3s ease;
+}
+
+.btn-remove:hover {
+    background: #c82333;
+}
+
+.btn-remove:disabled {
+    background: #6c757d;
+    cursor: not-allowed;
+}
+
+.player-name {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+}
+
+.contribution-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.contribution-section label {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.contribution {
+    width: 80px;
+    padding: 6px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Results Section */
+.calculation-summary {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 15px;
+    padding: 12px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.summary-item span:first-child {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.summary-item span:last-child {
+    font-weight: bold;
+    color: #333;
+}
+
+/* Result Cards */
+.result-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 8px;
+    box-shadow: 0 3px 10px rgba(102, 126, 234, 0.3);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 10px;
+}
+
+.result-player {
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.result-amounts {
+    text-align: right;
+}
+
+.primary-amount {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.converted-amounts {
+    font-size: 0.85rem;
+    opacity: 0.9;
+}
+
+.currency-result-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+    vertical-align: middle;
+    border-radius: 3px;
+}
+
+/* Central Pool Styling */
+.result-card.central-pool {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    border: 2px dashed #ffffff;
+}
+
+.central-pool-title {
+    font-size: 1rem;
+    color: white;
+    opacity: 0.95;
+}
+
+/* Warning */
+.warning {
+    background: #fff3cd;
+    border: 1px solid #ffeaa7;
+    color: #856404;
+    padding: 12px;
+    border-radius: 8px;
+    margin-top: 15px;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Actions Section */
+.btn-action {
+    background: #667eea;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    margin: 5px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.btn-action:hover {
+    background: #5a6fd8;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.btn-action:nth-child(2) {
+    background: #6c757d;
+}
+
+.btn-action:nth-child(2):hover {
+    background: #5a6268;
+}
+
+.btn-action:nth-child(3) {
+    background: #28a745;
+}
+
+.btn-action:nth-child(3):hover {
+    background: #218838;
+}
+
+/* Upload Sections */
+.upload-section {
+    margin-bottom: 20px;
+    padding: 20px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+}
+
+.upload-container {
+    margin-top: 15px;
+}
+
+.upload-area {
+    border: 2px dashed #667eea;
+    border-radius: 12px;
+    padding: 40px 20px;
+    text-align: center;
+    background: rgba(102, 126, 234, 0.05);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 20px;
+}
+
+.upload-area:hover {
+    border-color: #5a6fd8;
+    background: rgba(102, 126, 234, 0.1);
+    transform: translateY(-2px);
+}
+
+.upload-area.dragover {
+    border-color: #28a745;
+    background: rgba(40, 167, 69, 0.1);
+    box-shadow: 0 0 20px rgba(40, 167, 69, 0.2);
+}
+
+.upload-placeholder p {
+    margin: 10px 0 5px 0;
+    font-size: 1.1rem;
+    color: #333;
+    font-weight: 500;
+}
+
+.upload-placeholder small {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.upload-stats {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 15px 0;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    background: rgba(248, 249, 250, 0.5);
+    border-radius: 6px;
+    padding: 12px 15px;
+}
+
+.stats-info {
+    font-size: 14px;
+    color: #555;
+    font-weight: 500;
+}
+
+.clear-btn {
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.clear-btn:hover {
+    background: linear-gradient(135deg, #c0392b, #a93226);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(231, 76, 60, 0.3);
+}
+
+.clear-btn:active {
+    transform: translateY(0);
+}
+
+/* Player Confirmations */
+.player-confirmations {
+    margin-top: 30px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 12px;
+    border: 1px solid #dee2e6;
+}
+
+.player-confirmations h3 {
+    margin: 0 0 15px 0;
+    color: #333;
+    font-size: 1.2rem;
+}
+
+.confirmation-list {
+    display: grid;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.player-confirmation {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 15px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.player-confirmation:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.player-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.player-confirmation .player-name {
+    font-weight: 500;
+    color: #333;
+}
+
+.confirmation-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.status-btn {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.status-btn.confirmed {
+    background: #28a745;
+    color: white;
+}
+
+.status-btn.pending {
+    background: #ffc107;
+    color: #333;
+}
+
+.status-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.confirmation-controls {
+    display: flex;
+    gap: 10px;
+}
+
+.confirmation-btn {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    background: #007bff;
+    color: white;
+}
+
+.confirmation-btn.reset {
+    background: #6c757d;
+}
+
+.confirmation-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.remove-player-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 4px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.remove-player-btn:hover {
+    background: rgba(220, 53, 69, 0.1);
+    transform: scale(1.1);
+}
+
+.upload-icon {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.uploaded-images {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.image-card {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.image-card:hover {
+    transform: scale(1.03);
+}
+
+.image-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+}
+
+.image-card .remove-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(220, 53, 69, 0.9);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.image-card .remove-btn:hover {
+    background: rgba(220, 53, 69, 1);
+    transform: scale(1.1);
+}
+
+.image-info {
+    padding: 8px;
+    background: rgba(255, 255, 255, 0.95);
+    font-size: 0.8rem;
+    color: #666;
+}
+
+.image-info .filename {
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 2px;
+    word-break: break-word;
+}
+
+.image-info .file-meta {
+    color: #888;
+    font-size: 0.7rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    body {
+        padding: 5px;
+    }
+    
+    .container {
+        padding: 15px;
+        margin: 0 5px;
+    }
+    
+    #revenue-tab {
+        grid-template-columns: 1fr;
+        grid-template-areas: 
+            "exchange-section"
+            "maps-section"
+            "players-section"
+            "results-section"
+            "actions-section";
+    }
+    
+    .nav-container {
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    .nav-tab {
+        text-align: center;
+    }
+    
+    header h1 {
+        font-size: 1.8rem;
+    }
+    
+    .players-section {
+        max-height: 300px;
+    }
+    
+    .results-section {
+        max-height: 300px;
+    }
+    
+    .result-card {
+        grid-template-columns: 1fr;
+        gap: 5px;
+        text-align: center;
+    }
+    
+    .result-amounts {
+        text-align: center;
+    }
+    
+    .calculation-summary {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    
+    .players-header {
+        flex-direction: column;
+        gap: 10px;
+        align-items: stretch;
+    }
+    
+    .player-controls {
+        justify-content: center;
+    }
+    
+    .price-info {
+        flex-direction: column;
+        gap: 5px;
+        text-align: center;
+    }
+}

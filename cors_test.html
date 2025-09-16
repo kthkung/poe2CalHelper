@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CORS Test for POE2 API</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .result { margin: 20px 0; padding: 10px; border-radius: 5px; }
+        .success { background-color: #d4edda; border: 1px solid #c3e6cb; color: #155724; }
+        .error { background-color: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; }
+        .loading { background-color: #fff3cd; border: 1px solid #ffeaa7; color: #856404; }
+        button { padding: 10px 20px; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <h1>CORS Test for POE2Scout API</h1>
+    <button onclick="testDirectAPI()">Test Direct API</button>
+    <button onclick="testWithProxy()">Test with CORS Proxy</button>
+    <button onclick="testUpdateLastUpdated()">Test updateLastUpdated Function</button>
+    
+    <div id="result"></div>
+    <div id="lastUpdated"></div>
+
+    <script>
+        // Copy the updateLastUpdated function from our fixed script.js
+        function updateLastUpdated(source = 'API') {
+            const now = new Date();
+            const timeString = now.toLocaleString('th-TH', {
+                timeZone: 'Asia/Bangkok',
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            
+            const lastUpdatedElement = document.getElementById('lastUpdated');
+            if (lastUpdatedElement) {
+                lastUpdatedElement.textContent = `อัปเดตล่าสุด: ${timeString} (${source})`;
+            }
+        }
+
+        async function testDirectAPI() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '<div class="loading">Testing direct API call...</div>';
+            
+            try {
+                const url = 'https://poe2scout.com/api/items/currency/currency?page=1&perPage=25&league=Rise%20of%20the%20Abyssal&referenceCurrency=exalted';
+                
+                const response = await fetch(url, {
+                    mode: 'cors',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                resultDiv.innerHTML = `<div class="success">✅ Direct API call successful!<br>Data: ${JSON.stringify(data).substring(0, 200)}...</div>`;
+                updateLastUpdated('Direct API');
+                
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">❌ Direct API failed: ${error.message}</div>`;
+            }
+        }
+
+        async function testWithProxy() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '<div class="loading">Testing CORS proxy...</div>';
+            
+            const originalUrl = 'https://poe2scout.com/api/items/currency/currency?page=1&perPage=25&league=Rise%20of%20the%20Abyssal&referenceCurrency=exalted';
+            const corsProxies = [
+                'https://api.allorigins.win/raw?url=',
+                'https://corsproxy.io/?',
+                'https://api.codetabs.com/v1/proxy?quest='
+            ];
+            
+            for (let i = 0; i < corsProxies.length; i++) {
+                try {
+                    const proxyUrl = corsProxies[i];
+                    const url = `${proxyUrl}${encodeURIComponent(originalUrl)}`;
+                    
+                    resultDiv.innerHTML = `<div class="loading">Trying proxy ${i + 1}/${corsProxies.length}: ${proxyUrl}</div>`;
+                    
+                    const response = await fetch(url, {
+                        mode: 'cors',
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+                    
+                    const data = await response.json();
+                    resultDiv.innerHTML = `<div class="success">✅ Proxy ${i + 1} successful!<br>Proxy: ${proxyUrl}<br>Data: ${JSON.stringify(data).substring(0, 200)}...</div>`;
+                    updateLastUpdated('Proxy API');
+                    return;
+                    
+                } catch (error) {
+                    if (i === corsProxies.length - 1) {
+                        resultDiv.innerHTML = `<div class="error">❌ All proxies failed. Last error: ${error.message}</div>`;
+                    }
+                }
+            }
+        }
+
+        function testUpdateLastUpdated() {
+            updateLastUpdated('Test Function');
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '<div class="success">✅ updateLastUpdated function test completed! Check below for the timestamp.</div>';
+        }
+    </script>
+</body>
+</html>

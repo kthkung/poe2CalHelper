@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual Gist Setup for POE2 Party</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .step {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .code {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 3px;
+            padding: 15px;
+            font-family: monospace;
+            margin: 10px 0;
+            white-space: pre-wrap;
+            overflow-x: auto;
+        }
+        .btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn:hover {
+            background: #0056b3;
+        }
+        .highlight {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Manual Setup Fixed Gist Session</h1>
+        <p>วิธีง่ายๆ ไม่ต้องใช้ API Token</p>
+        
+        <div class="step">
+            <h3>📝 ขั้นตอนที่ 1: สร้าง Gist ใน GitHub</h3>
+            <ol>
+                <li><a href="https://gist.github.com" target="_blank" class="btn">เปิด GitHub Gist</a></li>
+                <li>ตั้งชื่อไฟล์: <strong>poe2-party-data.json</strong></li>
+                <li>คัดลอกข้อมูลด้านล่างใส่ในไฟล์:</li>
+            </ol>
+            
+            <div class="code" id="gistContent">{
+  "items": [],
+  "evidence": [],
+  "playerConfirmations": {
+    "Player 1": "pending",
+    "Player 2": "pending", 
+    "Player 3": "pending",
+    "Player 4": "pending",
+    "Player 5": "pending",
+    "Player 6": "pending"
+  },
+  "sessionInfo": {
+    "created": 1726492800000,
+    "lastUpdated": 1726492800000,
+    "createdBy": "poe2-party-group",
+    "groupName": "GIGOLO Party Group"
+  }
+}</div>
+            
+            <button onclick="copyToClipboard('gistContent')" class="btn">📋 คัดลอกข้อมูล</button>
+            
+            <div class="highlight">
+                <strong>สำคัญ!</strong> เลือก <strong>"Create secret gist"</strong> (ไม่ใช่ public)
+            </div>
+        </div>
+        
+        <div class="step">
+            <h3>🔗 ขั้นตอนที่ 2: ดู Gist ID</h3>
+            <p>หลังจากสร้าง Gist แล้ว ให้ดู URL ในเบราว์เซอร์:</p>
+            <div class="code">https://gist.github.com/your-username/<span style="background: yellow;">32-character-gist-id</span></div>
+            <p>คัดลอก <strong>32 ตัวอักษรส่วนท้าย</strong> (Gist ID) มาใส่ในช่องด้านล่าง:</p>
+            <input type="text" id="gistIdInput" placeholder="ใส่ Gist ID ที่ได้" maxlength="32">
+            <br><br>
+            <button onclick="generateCode()" class="btn">🔧 สร้างโค้ดสำหรับ script.js</button>
+        </div>
+        
+        <div class="step" id="step3" style="display: none;">
+            <h3>⚙️ ขั้นตอนที่ 3: อัปเดตโค้ด</h3>
+            <p>คัดลอกโค้ดด้านล่างแทนที่ในไฟล์ <strong>script.js</strong>:</p>
+            <div class="code" id="updatedCode"></div>
+            <button onclick="copyToClipboard('updatedCode')" class="btn">📋 คัดลอกโค้ด</button>
+        </div>
+        
+        <div class="step">
+            <h3>🎉 ขั้นตอนที่ 4: ใช้งาน</h3>
+            <p>หลังจากอัปเดตโค้ดแล้ว ทุกคนในกลุ่มจะ:</p>
+            <ul>
+                <li>✅ เชื่อมต่อ Session เดียวกันอัตโนมัติ</li>
+                <li>✅ เห็นรูปภาพและสถานะแบบ real-time</li>
+                <li>✅ ไม่ต้องสร้าง/เข้าร่วม Session แล้ว</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function copyToClipboard(elementId) {
+            const element = document.getElementById(elementId);
+            const text = element.textContent;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                alert('📋 คัดลอกแล้ว!');
+            }).catch(() => {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                alert('📋 คัดลอกแล้ว!');
+            });
+        }
+        
+        function generateCode() {
+            const gistId = document.getElementById('gistIdInput').value.trim();
+            
+            if (!gistId) {
+                alert('กรุณาใส่ Gist ID ก่อน!');
+                return;
+            }
+            
+            if (gistId.length !== 32) {
+                alert('Gist ID ต้องมี 32 ตัวอักษร!');
+                return;
+            }
+            
+            const codeToReplace = `const FIXED_GIST_ID = '${gistId}';`;
+            
+            document.getElementById('updatedCode').textContent = codeToReplace;
+            document.getElementById('step3').style.display = 'block';
+            
+            alert('✅ สร้างโค้ดสำเร็จ! คัดลอกไปแทนที่ในไฟล์ script.js');
+        }
+    </script>
+</body>
+</html>

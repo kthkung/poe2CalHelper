@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POE2 Currency Calculator - Farm Party Helper</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>💰 POE2 Party Helper</h1>
+            <p>ระบบจัดการปาร์ตี้สำหรับ POE2 - คำนวณรายได้ | จัดการไอเท็ม | บันทึกหลักฐาน</p>
+        </header>
+
+        <!-- Navigation Menu -->
+        <nav class="navbar">
+            <div class="nav-container">
+                <button class="nav-tab active" data-tab="revenue">
+                    📊 หารรายได้
+                </button>
+                <button class="nav-tab" data-tab="items">
+                    🏪 ไอเท็มที่ขาย
+                </button>
+                <button class="nav-tab" data-tab="evidence">
+                    📋 หลักฐานการแบ่ง
+                </button>
+            </div>
+        </nav>
+
+        <main>
+            <!-- Revenue Tab (existing content) -->
+            <div id="revenue-tab" class="tab-content active">
+                <!-- Exchange Rates Section -->
+                <section class="exchange-section">
+                    <h2>💱 Exchange Rates</h2>
+                
+                <!-- Total Currency Input moved here -->
+                <div class="total-input">
+                    <label for="totalCurrency">💰 Total Divine Orbs ที่ได้:</label>
+                    <input type="number" 
+                           id="totalCurrency" 
+                           class="input-field" 
+                           placeholder="Enter total Divine Orbs" 
+                           min="0" 
+                           step="0.01"
+                           autocomplete="off"
+                           inputmode="decimal">
+                </div>
+                
+                <div class="api-status">
+                    <span id="apiStatus" class="status-loading">🔄 กำลังโหลดราคาจาก POE2Scout...</span>
+                    <button id="refreshRates" class="btn-refresh">🔄 อัปเดตราคา</button>
+                </div>
+                
+                <div class="exchange-grid">
+                    <div class="exchange-item primary-currency">
+                        <span class="rate-label">1 Divine Orb =</span>
+                        <input type="number" id="divineRate" value="205.84" min="1" step="0.01">
+                        <span>Exalted Orbs</span>
+                        <small class="rate-source">API</small>
+                    </div>
+                    <div class="exchange-item">
+                        <span class="rate-label">1 Exalted Orb =</span>
+                        <input type="number" id="exaltedRate" value="1.00" min="1" step="0.01" readonly>
+                        <span>Exalted Orbs</span>
+                        <small class="rate-source">Base</small>
+                    </div>
+                </div>
+                
+                <div class="price-info">
+                    <div class="price-timestamp">
+                        🕒 Last Updated: <span id="lastUpdated">--</span>
+                    </div>
+                    <div class="league-info">
+                        🏆 League: <span id="currentLeague">Rise of the Abyssal</span>
+                    </div>
+                </div>
+                
+                <div class="conversion-display">
+                    <strong>📊 Total Value: <span id="totalValueInExalted">0</span> Exalted Orbs</strong>
+                    <div class="converted-values">
+                        <span>≈ <span id="totalValueInDivine">0</span> Divine Orbs</span>
+                    </div>
+                </div>
+                
+                <div class="rate-info">
+                    <small>💡 ราคาจาก POE2Scout API | สามารถแก้ไขค่าได้หากไม่ตรงกับตลาด</small>
+                </div>
+            </section>
+
+            <!-- Maps Cost Section -->
+            <section class="maps-section">
+                <h2>🗺️ ค่าทำ Maps</h2>
+                
+                <div class="maps-input">
+                    <label for="mapsCost">ค่าใช้จ่าย Maps (Divine):</label>
+                    <input type="number" 
+                           id="mapsCost" 
+                           class="input-field" 
+                           placeholder="Enter maps cost in Divine" 
+                           min="0" 
+                           step="0.01"
+                           value="0"
+                           autocomplete="off"
+                           inputmode="decimal">
+                </div>
+                
+                <div class="maps-status">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="mapsReimbursed" checked>
+                        <span class="checkmark"></span>
+                        <span class="checkbox-label">เบิกแล้ว (ไม่หักจาก Total)</span>
+                    </label>
+                    <div class="maps-note">
+                        <small>💡 ถ้าไม่ติ๊ก = ยังไม่เบิก (จะหักจาก Total Currency)</small>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Player Management -->
+            <section class="players-section">
+                <div class="players-header">
+                    <h2>👥 สมาชิกในปาร์ตี้</h2>
+                    <div class="player-controls">
+                        <button id="addPlayer" class="btn-add">+ เพิ่มคน</button>
+                        <span class="player-count">จำนวน: <span id="playerCount">2</span>/6 คน</span>
+                    </div>
+                </div>
+
+                <div id="playersContainer">
+                    <!-- Default 2 players -->
+                    <div class="player-card" data-player="1">
+                        <div class="player-header">
+                            <span class="player-number">Player 1</span>
+                            <button class="btn-remove" disabled>🗑️</button>
+                        </div>
+                        <input type="text" class="player-name" placeholder="ชื่อผู้เล่น" value="คุณ">
+                        <div class="contribution-section">
+                            <label for="contribution1">💪 Contribution (%):</label>
+                            <input type="number" id="contribution1" class="contribution" value="50" min="0" max="100">
+                        </div>
+                    </div>
+
+                    <div class="player-card" data-player="2">
+                        <div class="player-header">
+                            <span class="player-number">Player 2</span>
+                            <button class="btn-remove" disabled>🗑️</button>
+                        </div>
+                        <input type="text" class="player-name" placeholder="ชื่อผู้เล่น">
+                        <div class="contribution-section">
+                            <label for="contribution2">💪 Contribution (%):</label>
+                            <input type="number" id="contribution2" class="contribution" value="50" min="0" max="100">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Results Section -->
+            <section class="results-section">
+                <h2>📊 ผลการคำนวณ</h2>
+                
+                <div class="calculation-summary">
+                    <div class="summary-item">
+                        <span>Total Currency:</span>
+                        <span id="displayTotal">0</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Total Contribution:</span>
+                        <span id="totalContribution">100%</span>
+                    </div>
+                </div>
+
+                <div id="resultsContainer">
+                    <!-- Results will be populated by JavaScript -->
+                </div>
+
+                <div class="warning" id="warningMessage" style="display: none;">
+                    ⚠️ Total Contribution ไม่เท่ากับ 100%
+                </div>
+            </section>
+
+            <!-- Quick Actions -->
+            <section class="actions-section">
+                <button id="equalSplit" class="btn-action">⚖️ แบ่งเท่ากัน</button>
+                <button id="clearAll" class="btn-action">🔄 เคลียร์ทั้งหมด</button>
+                <button id="copyResults" class="btn-action">📋 คัดลอกผลลัพธ์</button>
+            </section>
+            </div>
+
+            <!-- Items Tab -->
+            <div id="items-tab" class="tab-content">
+                <section class="upload-section">
+                    <h2>🏪 ไอเท็มที่ตั้งขายและขายได้แล้ว</h2>
+                    <div class="upload-container">
+                        <div class="upload-area" id="itemsUpload">
+                            <div class="upload-placeholder">
+                                <i class="upload-icon">📷</i>
+                                <p>คลิกหรือลากรูปไอเท็มที่ขายแล้วมาวางที่นี่</p>
+                                <small>รองรับ: JPG, PNG, WEBP (ขนาดไม่เกิน 5MB)</small>
+                            </div>
+                            <input type="file" id="itemsFileInput" accept="image/*" multiple style="display: none;">
+                        </div>
+                        
+                        <div class="upload-stats">
+                            <div class="stats-info">
+                                <span id="itemsStats">รูปภาพ: 0 | ขนาด: 0 MB</span>
+                            </div>
+                            <button type="button" onclick="clearAllImages('items')" class="clear-btn">🗑️ ลบทั้งหมด</button>
+                        </div>
+                        
+                        <div class="uploaded-images" id="itemsGallery">
+                            <!-- Uploaded images will appear here -->
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Evidence Tab -->
+            <div id="evidence-tab" class="tab-content">
+                <section class="upload-section">
+                    <h2>📋 หลักฐานการแบ่งในคลัง</h2>
+                    <div class="upload-container">
+                        <div class="upload-area" id="evidenceUpload">
+                            <div class="upload-placeholder">
+                                <i class="upload-icon">📷</i>
+                                <p>คลิกหรือลากรูปหลักฐานการแบ่งมาวางที่นี่</p>
+                                <small>รองรับ: JPG, PNG, WEBP (ขนาดไม่เกิน 5MB)</small>
+                            </div>
+                            <input type="file" id="evidenceFileInput" accept="image/*" multiple style="display: none;">
+                        </div>
+                        
+                        <div class="upload-stats">
+                            <div class="stats-info">
+                                <span id="evidenceStats">รูปภาพ: 0 | ขนาด: 0 MB</span>
+                            </div>
+                            <button type="button" onclick="clearAllImages('evidence')" class="clear-btn">🗑️ ลบทั้งหมด</button>
+                        </div>
+                        
+                        <div class="uploaded-images" id="evidenceGallery">
+                            <!-- Uploaded images will appear here -->
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Player Confirmations Section -->
+                <section class="player-confirmations">
+                    <h3>✅ สถานะการรับส่วนแบ่งของสมาชิก</h3>
+                    <div class="confirmation-list" id="playerConfirmationList">
+                        <!-- Player confirmation buttons will be dynamically added here -->
+                    </div>
+                    <div class="confirmation-controls">
+                        <button id="addPlayerConfirmationBtn" class="confirmation-btn">➕ เพิ่มสมาชิก</button>
+                        <button id="resetConfirmationsBtn" class="confirmation-btn reset">🔄 รีเซ็ตทั้งหมด</button>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <footer>
+            <p>Made By น้องก้องสุดหล่อแห่ง GIGOLO  | Deploy via GitHub Pages</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
